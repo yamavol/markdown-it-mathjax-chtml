@@ -156,7 +156,7 @@ function math_block(state, start, end, silent){
 
 module.exports = function math_plugin(md, options) {
     // Default options
-
+    options = options || {};
     options.mathjax = options.mathjax || {};
     
     var mathjaxInline = function(latex){
