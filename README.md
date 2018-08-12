@@ -12,7 +12,7 @@ Note that server side mathjax rendering has several shortcomings. [`markdown-it-
 var md = require('markdown-it')();
 var mj = require('markdown-it-mathjax-chtml');
 md.use(mj);
-var result = md.render('#Markdown \n \\[\\sqrt{1+2x}\\]);
+var result = md.render('#Markdown \n \\[\\sqrt{1+2x}\\]');
 ```
 
 To configure the plugin, pass an object. 
