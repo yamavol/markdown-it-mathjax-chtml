@@ -1,3 +1,9 @@
+/**
+ * The original work is distributed by the Mathjax (apache-2.0)
+ * https://github.com/mathjax/mathjax-v3
+ * https://github.com/mathjax/mj3-demos-node/blob/master/mj3-tex2html
+ * 
+ */
 const TeX = require('mathjax3/mathjax3/input/tex').TeX;
 const CHTML = require('mathjax3/mathjax3/output/chtml').CHTML;
 const HTMLMathItem = require('mathjax3/mathjax3/handlers/html/HTMLMathItem').HTMLMathItem;

@@ -1,14 +1,9 @@
-/* Process inline math */
 /*
-Like markdown-it-simplemath, this is a stripped down, simplified version of:
-https://github.com/runarberg/markdown-it-math
+The original work of this plugin derives from the markdown-it-katex (MIT)
+https://github.com/waylonflinn/markdown-it-katex
 
-It differs in that it takes (a subset of) LaTeX as input and relies on KaTeX
-for rendering output.
+The rendering function was replaced from Katex to mathjax.
 */
-
-/*jslint node: true */
-'use strict';
 
 const tex2html = require('./tex2html');
 
