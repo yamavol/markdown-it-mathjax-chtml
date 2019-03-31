@@ -7,6 +7,8 @@ The rendering function was replaced from Katex to mathjax.
 
 const tex2html = require('./tex2html');
 
+// workaround for mathjax3 beta3
+top = true;
 
 const DEFAULT_OPTIONS = {
     throwOnError: true
