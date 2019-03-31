@@ -7,6 +7,11 @@ The rendering function was replaced from Katex to mathjax.
 
 const tex2html = require('./tex2html');
 
+
+const DEFAULT_OPTIONS = {
+    throwOnError: true
+};
+
 // Test if potential opening or closing delimieter
 // Assumes that there is a "$" at state.src[pos]
 function isValidDelim(state, pos) {
@@ -147,51 +152,71 @@ function math_block(state, start, end, silent){
     return true;
 }
 
-
-
-module.exports = function math_plugin(md, options) {
+/**
+ * MathjaxPlugin (constructor)
+ * pass an object with initialization parameters. It will be used 
+ * in both markdown-it plugin and mathjax-css generator
+ */
+function MathjaxPlugin(options) {
+    if (!(this instanceof MathjaxPlugin)) {
+        return new MathjaxPlugin(options);
+    }
     // Default options
-    options = options || {};
+    options = Object.assign({}, options, DEFAULT_OPTIONS);
     options.mathjax = options.mathjax || {};
-    
-    var mathjaxInline = function(latex){
-        options.displayMode = false;
-        options.mathjax.inline = !options.displayMode;
-        try{
-            var math = tex2html(latex, options.mathjax);
-            return math.html; 
-        }
-        catch(error){
-            if(options.throwOnError){ console.log(error); }
-            return latex;
-        }
-    };
 
-    var inlineRenderer = function(tokens, idx){
-        return mathjaxInline(tokens[idx].content);
-    };
+    this._options = options;
+    this.css = tex2html('', this._options.mathjax).css;
+}
 
-    var mathjaxBlock = function(latex){
-        options.displayMode = true;
-        options.mathjax.inline = !options.displayMode;
-        try{
-            var math = tex2html(latex, options.mathjax);
-            return "<p>" + math.html + "</p>";
+/**
+ * Markdown-it plugin
+ * calling this function returns a plugin for markdown-it.
+ */
+MathjaxPlugin.prototype.plugin = function() {
+    return (md, options) => {
+        options = options || this._options;
+        var mathjaxInline = function(latex){
+            options.displayMode = false;
+            options.mathjax.inline = !options.displayMode;
+            try{
+                var math = tex2html(latex, options.mathjax);
+                return math.html; 
+            }
+            catch(error){
+                if(options.throwOnError){ console.log(error); }
+                return latex;
+            }
+        };
+
+        var inlineRenderer = function(tokens, idx){
+            return mathjaxInline(tokens[idx].content);
+        };
+
+        var mathjaxBlock = function(latex){
+            options.displayMode = true;
+            options.mathjax.inline = !options.displayMode;
+            try{
+                var math = tex2html(latex, options.mathjax);
+                return "<p>" + math.html + "</p>";
+            }
+            catch(error){
+                if(options.throwOnError){ console.log(error); }
+                return latex;
+            }
         }
-        catch(error){
-            if(options.throwOnError){ console.log(error); }
-            return latex;
+
+        var blockRenderer = function(tokens, idx){
+            return  mathjaxBlock(tokens[idx].content) + '\n';
         }
+
+        md.inline.ruler.after('escape', 'math_inline', math_inline);
+        md.block.ruler.after('blockquote', 'math_block', math_block, {
+            alt: [ 'paragraph', 'reference', 'blockquote', 'list' ]
+        });
+        md.renderer.rules.math_inline = inlineRenderer;
+        md.renderer.rules.math_block = blockRenderer;
     }
-
-    var blockRenderer = function(tokens, idx){
-        return  mathjaxBlock(tokens[idx].content) + '\n';
-    }
-
-    md.inline.ruler.after('escape', 'math_inline', math_inline);
-    md.block.ruler.after('blockquote', 'math_block', math_block, {
-        alt: [ 'paragraph', 'reference', 'blockquote', 'list' ]
-    });
-    md.renderer.rules.math_inline = inlineRenderer;
-    md.renderer.rules.math_block = blockRenderer;
 };
+
+module.exports = MathjaxPlugin;
