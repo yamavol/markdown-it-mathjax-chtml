@@ -10,12 +10,7 @@ const HTMLMathItem = require('mathjax3/mathjax3/handlers/html/HTMLMathItem').HTM
 const HTMLDocument = require('mathjax3/mathjax3/handlers/html/HTMLDocument').HTMLDocument;
 const liteAdaptor = require('mathjax3/mathjax3/adaptors/liteAdaptor').liteAdaptor;
 const LiteDocument = require('mathjax3/mathjax3/adaptors/lite/Document.js').LiteDocument;
-
-require('mathjax3/mathjax3/input/tex/base/BaseConfiguration.js');
-require('mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js');
-require('mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js');
-require('mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js');
-require('mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js');
+const AllPackages = require('mathjax3/mathjax3/input/tex/AllPackages').AllPackages;
 
 module.exports = function(input, opts) {
 
@@ -26,7 +21,7 @@ module.exports = function(input, opts) {
     opts.ex     = opts.ex         || 8;
     opts.width  = opts.width      || 80*16;
     opts.fontURL= opts.fontURL    || 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css';
-    opts.packages = opts.packages || 'base, ams, noundefined, newcommand, boldsymbol';
+    opts.packages = opts.packages || AllPackages.sort().join(', ');
 
     // set up mathjax and conversion function
     const my_packages = opts.packages.split(/\s*,\s*/);
