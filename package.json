@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-mathjax-chtml",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a plugin for markdown-it to convert mathematical equation into common html format using mathjax",
   "main": "src/index.js",
   "scripts": {
