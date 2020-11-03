@@ -4,13 +4,13 @@
  * https://github.com/mathjax/mj3-demos-node/blob/master/mj3-tex2html
  * 
  */
-const TeX = require('mathjax3/mathjax3/input/tex').TeX;
-const CHTML = require('mathjax3/mathjax3/output/chtml').CHTML;
-const HTMLMathItem = require('mathjax3/mathjax3/handlers/html/HTMLMathItem').HTMLMathItem;
-const HTMLDocument = require('mathjax3/mathjax3/handlers/html/HTMLDocument').HTMLDocument;
-const liteAdaptor = require('mathjax3/mathjax3/adaptors/liteAdaptor').liteAdaptor;
-const LiteDocument = require('mathjax3/mathjax3/adaptors/lite/Document.js').LiteDocument;
-const AllPackages = require('mathjax3/mathjax3/input/tex/AllPackages').AllPackages;
+const {TeX} = require('mathjax-full/js/input/tex');
+const {CHTML} = require('mathjax-full/js/output/chtml');
+const {HTMLMathItem} = require('mathjax-full/js/handlers/html/HTMLMathItem');
+const {HTMLDocument} = require('mathjax-full/js/handlers/html/HTMLDocument');
+const {liteAdaptor} = require('mathjax-full/js/adaptors/liteAdaptor');
+const {LiteDocument} = require('mathjax-full/js/adaptors/lite/Document.js');
+const {AllPackages} = require('mathjax-full/js/input/tex/AllPackages');
 
 module.exports = function(input, opts) {
 
@@ -20,7 +20,7 @@ module.exports = function(input, opts) {
     opts.em     = opts.em         || 16;
     opts.ex     = opts.ex         || 8;
     opts.width  = opts.width      || 80*16;
-    opts.fontURL= opts.fontURL    || 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css';
+    opts.fontURL= opts.fontURL    || 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2';
     opts.packages = opts.packages || AllPackages.sort().join(', ');
 
     // set up mathjax and conversion function
