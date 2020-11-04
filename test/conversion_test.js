@@ -24,16 +24,17 @@ function file_output(html, css, basename) {
 }
 
 describe('markdown-it no-config conversion', function() {
-    const md = MarkdownIt();
-    const mj = MathjaxPlugin();
-    md.use(mj.plugin());
-
     it('[A0] conversion', function() {
+        const md = MarkdownIt();
+        const mj = MathjaxPlugin();
+        md.use(mj.plugin());
         const text = fs.readFileSync(fp('test1.md'), 'utf-8');
         const html = md.render(text);
-        file_output(html, mj.css, 'result_A0');
+        const css = mj.getCSS();
+        file_output(html, css, 'result_A0');
     });
 })
+
 
 describe('markdown-it basic conversion', function() {
     const opts = {
@@ -50,6 +51,7 @@ describe('markdown-it basic conversion', function() {
     it('[B0] conversion', function() {
         const text = fs.readFileSync(fp('test1.md'), 'utf-8');
         const html = md.render(text);
-        file_output(html, mj.css, 'result_B0');
+        const css = mj.getCSS();
+        file_output(html, css, 'result_B0');
     });
 })

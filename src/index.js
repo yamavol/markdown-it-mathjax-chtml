@@ -5,7 +5,16 @@ https://github.com/waylonflinn/markdown-it-katex
 The rendering function was replaced from Katex to mathjax.
 */
 
-const tex2html = require('./tex2html');
+/**
+ * @typedef { import('./index').PluginOptions } PluginOptions
+ * @typedef { import('markdown-it').PluginWithOptions<PluginOptions> } MdPlugin
+ * @typedef { import('markdown-it/lib/parser_inline').RuleInline } RuleInline
+ * @typedef { import('markdown-it/lib/parser_block').RuleBlock } RuleBlock
+ * @typedef { import('markdown-it/lib/renderer').RenderRule } RenderRule
+ * @typedef { import('markdown-it/lib/rules_core/state_core')} MdStateCore
+ */
+
+const tex2html = require('./tex2html')('');
 
 // workaround for mathjax3 beta3
 top = true;
@@ -14,8 +23,12 @@ const DEFAULT_OPTIONS = {
     throwOnError: true
 };
 
-// Test if potential opening or closing delimieter
-// Assumes that there is a "$" at state.src[pos]
+/**
+ * Test if potential opening or closing delimieter
+ * Assumes that there is a "$" at state.src[pos]
+ * @param {MdStateCore} state 
+ * @param {number} pos 
+ */
 function isValidDelim(state, pos) {
     var prevChar, nextChar,
         max = state.posMax,
@@ -41,6 +54,10 @@ function isValidDelim(state, pos) {
     };
 }
 
+/**
+ * @param {MdStateCore} state 
+ * @param {boolean} silent 
+ */
 function math_inline(state, silent) {
     var start, match, token, res, pos, esc_count;
 
@@ -102,6 +119,13 @@ function math_inline(state, silent) {
     return true;
 }
 
+/**
+ * 
+ * @param {MdStateCore} state 
+ * @param {number} start 
+ * @param {number} end 
+ * @param {boolean} silent 
+ */
 function math_block(state, start, end, silent){
     var firstLine, lastLine, next, lastPos, found = false, token,
         pos = state.bMarks[start] + state.tShift[start],
@@ -157,7 +181,9 @@ function math_block(state, start, end, silent){
 /**
  * MathjaxPlugin (constructor)
  * pass an object with initialization parameters. It will be used 
- * in both markdown-it plugin and mathjax-css generator
+ * in both markdown-it plugin and mathjax-css generator 
+ * @param { PluginOptions } options
+ * @type { MathjaxPlugin }
  */
 function MathjaxPlugin(options) {
     if (!(this instanceof MathjaxPlugin)) {
@@ -168,46 +194,62 @@ function MathjaxPlugin(options) {
     options.mathjax = options.mathjax || {};
 
     this._options = options;
-    this.css = tex2html('', this._options.mathjax).css;
 }
 
+
 /**
- * Markdown-it plugin
- * calling this function returns a plugin for markdown-it.
+ * Returns a markdown-it plugin
+ * 
+ * @return { MdPlugin }
  */
 MathjaxPlugin.prototype.plugin = function() {
     return (md, options) => {
         options = options || this._options;
-        var mathjaxInline = function(latex){
+
+        /**
+         * Inline RenderRule Implementation
+         * @param {string} tex  equation
+         */
+        var mathjaxInline = function(tex){
             options.displayMode = false;
             options.mathjax.inline = !options.displayMode;
             try{
-                var math = tex2html(latex, options.mathjax);
-                return math.html; 
+                var math = tex2html.convert(tex, options.mathjax);
+                return math; 
             }
             catch(error){
                 if(options.throwOnError){ console.log(error); }
-                return latex;
+                return tex;
             }
         };
 
+        /**
+         * @type {RenderRule}
+         */
         var inlineRenderer = function(tokens, idx){
             return mathjaxInline(tokens[idx].content);
         };
 
-        var mathjaxBlock = function(latex){
+        /**
+         * Block RenderRule Implementation
+         * @param {string} tex 
+         */
+        var mathjaxBlock = function(tex){
             options.displayMode = true;
             options.mathjax.inline = !options.displayMode;
             try{
-                var math = tex2html(latex, options.mathjax);
-                return "<p>" + math.html + "</p>";
+                var math = tex2html.convert(tex, options.mathjax);
+                return "<p>" + math + "</p>";
             }
             catch(error){
                 if(options.throwOnError){ console.log(error); }
-                return latex;
+                return tex;
             }
         }
 
+        /**
+         * @type {RenderRule}
+         */
         var blockRenderer = function(tokens, idx){
             return  mathjaxBlock(tokens[idx].content) + '\n';
         }
@@ -220,5 +262,9 @@ MathjaxPlugin.prototype.plugin = function() {
         md.renderer.rules.math_block = blockRenderer;
     }
 };
+
+MathjaxPlugin.prototype.getCSS = function() {
+    return tex2html.getCSS();
+}
 
 module.exports = MathjaxPlugin;
