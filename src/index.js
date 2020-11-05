@@ -190,8 +190,8 @@ function InitPlugin(instance, options) {
   options = Object.assign({}, options, DEFAULT_OPTIONS);
   options.mathjax = options.mathjax || {};
 
-  instance.options = options;
-  instance.tex2html = createTEX2HTML(options.mathjax);
+  instance.options_ = options;
+  instance.tex2html_ = createTEX2HTML(options.mathjax);
 }
 
 /**
@@ -206,10 +206,10 @@ function MathjaxPlugin(options) {
   options.mathjax = options.mathjax || {};
 
   /** @name MathjaxPlugin#options */
-  this.options = options;
+  this.options_ = options;
 
   /** @name MathjaxPlugin#tex2html */
-  this.tex2html = createTEX2HTML(options.mathjax);
+  this.tex2html_ = createTEX2HTML(options.mathjax);
 }
 
 /**
@@ -235,14 +235,14 @@ MathjaxPlugin.prototype.plugin = function () {
      * @param {string} tex  equation
      */
     var mathjaxInline = function (tex) {
-      self.options.displayMode = false;
-      self.options.mathjax.inline = !self.options.displayMode;
+      self.options_.displayMode = false;
+      self.options_.mathjax.inline = !self.options_.displayMode;
       try {
-        var math = self.tex2html.convert(tex, self.options.mathjax);
+        var math = self.tex2html_.convert(tex, self.options_.mathjax);
         return math;
       }
       catch (error) {
-        if (self.options.throwOnError) { console.log(error); }
+        if (self.options_.throwOnError) { console.log(error); }
         return tex;
       }
     };
@@ -259,14 +259,14 @@ MathjaxPlugin.prototype.plugin = function () {
      * @param {string} tex 
      */
     var mathjaxBlock = function (tex) {
-      self.options.displayMode = true;
-      self.options.mathjax.inline = !self.options.displayMode;
+      self.options_.displayMode = true;
+      self.options_.mathjax.inline = !self.options_.displayMode;
       try {
-        var math = self.tex2html.convert(tex, self.options.mathjax);
+        var math = self.tex2html_.convert(tex, self.options_.mathjax);
         return "<p>" + math + "</p>";
       }
       catch (error) {
-        if (self.options.throwOnError) { console.log(error); }
+        if (self.options_.throwOnError) { console.log(error); }
         return tex;
       }
     }
@@ -288,7 +288,7 @@ MathjaxPlugin.prototype.plugin = function () {
 };
 
 MathjaxPlugin.prototype.getCSS = function () {
-  return this.tex2html.getCSS();
+  return this.tex2html_.getCSS();
 }
 
 module.exports = MathjaxPlugin;
