@@ -22,14 +22,22 @@ function useParam(param, defaultParam) {
 }
 
 /**
- * @typedef { import('./index').TypedMathJaxConfig } MathJaxConfig
+ * @typedef { import('./index').MathJaxConfig } MathJaxConfig
+ * @typedef { import('./index').MathJaxConvertConfig } MathJaxConvertConfig
  */
 
 const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2';
 
 /**
+ * tex2html is a module which converts tex string into Common HTML format.
+ * The exported function initializes the engine and returns two functions.
+ * One converts the input. Another function creates CSS content.
  * 
- * @param {MathJaxConfig} opts 
+ * The initial parameters are used to configure the engine. 
+ * You can also pass parameters when converting. This parameters are used over
+ * initial parameters, but some parameters are ignored.
+ * 
+ * @param {Partial<MathJaxConfig>=} opts 
  */
 module.exports = function(opts) {
     // set default conversion parameters
