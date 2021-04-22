@@ -1,22 +1,23 @@
 import { PluginSimple, PluginWithOptions } from 'markdown-it'
-import tex2html, { MathjaxConfig } from './tex2html'
+import tex2html, { Tex2HtmlConfig } from './tex2html'
 
-export = MathjaxPlugin
+export = MdMjPlugin
 
-declare namespace MathjaxPlugin {
+declare namespace MdMjPlugin {
   interface PluginOptions {
-    mathjax: Partial<MathjaxConfig>
+    throwOnError: boolean
+    mathjax: Partial<Tex2HtmlConfig>
   }
 }
 
 
-declare function MathjaxPlugin(options?: Partial<MathjaxPlugin.PluginOptions>): MathjaxPlugin;
-declare class MathjaxPlugin {
-  constructor(options?: Partial<MathjaxPlugin.PluginOptions>);
-  options: MathjaxPlugin.PluginOptions;
+declare function MdMjPlugin(options?: Partial<MdMjPlugin.PluginOptions>): MdMjPlugin;
+declare class MdMjPlugin {
+  constructor(options?: Partial<MdMjPlugin.PluginOptions>);
+  options: MdMjPlugin.PluginOptions;
   tex2html: ReturnType<typeof tex2html>;
-  init(options?: Partial<MathjaxPlugin.PluginOptions>): void;
-  plugin(): PluginWithOptions<Partial<MathjaxPlugin.PluginOptions>>;
+  init(options?: Partial<MdMjPlugin.PluginOptions>): void;
+  plugin(): PluginWithOptions<Partial<MdMjPlugin.PluginOptions>>;
   getCSS(): string;
 }
 

@@ -3,17 +3,15 @@
  * @typedef { import('./index').PluginOptions }     PluginOptions
  * 
  * @typedef { import('./tex2html') }                Tex2HTML
- * @typedef { import('./tex2html').MathjaxConfig}   MathjaxConfig
+ * @typedef { import('./tex2html').Tex2HtmlConfig}  Tex2HtmlConfig
  * 
- * @typedef { import('markdown-it').PluginWithOptions<Partial<MathjaxConfig>> }  Plugin
+ * @typedef { import('markdown-it').PluginWithOptions<Partial<Tex2HtmlConfig>> }  Plugin
  * @typedef { import('markdown-it/lib/parser_inline').RuleInline }      RuleInline
  * @typedef { import('markdown-it/lib/parser_block').RuleBlock }        RuleBlock
  * @typedef { import('markdown-it/lib/renderer').RenderRule }           RenderRule
  * @typedef { import('markdown-it/lib/rules_core/state_core')}          StateCore
  */
 
-
-/** } */
 const createTEX2HTML = require('./tex2html');
 
 createTEX2HTML()

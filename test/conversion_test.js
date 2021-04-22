@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const MarkdownIt = require('markdown-it');
-const MathjaxPlugin = require('../src/index');
+const MdMjPlugin = require('../src/index');
 
 function fp(_file) {
   return path.join(__dirname, _file);
@@ -26,7 +26,7 @@ function file_output(html, css, basename) {
 describe('markdown-it no-config conversion', function () {
   it('[A0] conversion', function () {
     const md = MarkdownIt();
-    const mj = MathjaxPlugin();
+    const mj = MdMjPlugin();
     md.use(mj.plugin());
     const text = fs.readFileSync(fp('test1.md'), 'utf-8');
     const html = md.render(text);
@@ -38,14 +38,16 @@ describe('markdown-it no-config conversion', function () {
 
 describe('markdown-it basic conversion', function () {
   const opts = {
-    throwOnError: true
-  };
-  opts.mathjax = {
-    fontURL: 'https://cdn.jsdelivr.net/npm/mathjax-full@3.1.2/es5/output/chtml/fonts/woff-v2'
+    throwOnError: true,
+    mathjax: {
+      chtml: {
+        fontURL: 'https://cdn.jsdelivr.net/npm/mathjax-full@3.1.2/es5/output/chtml/fonts/woff-v2'
+      }
+    }
   }
 
   const md = MarkdownIt();
-  const mj = MathjaxPlugin(opts);
+  const mj = MdMjPlugin(opts);
   md.use(mj.plugin());
 
   it('[B0] conversion', function () {
