@@ -22,11 +22,10 @@ function useParam(param, defaultParam) {
 }
 
 /**
- * @typedef { import('./index').MathJaxConfig } MathJaxConfig
- * @typedef { import('./index').MathJaxConvertConfig } MathJaxConvertConfig
+ * @typedef { import('./tex2html').Tex2HtmlConfig } Tex2HtmlConfig
  */
 
-const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2';
+const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax-full@3/es5/output/chtml/fonts/woff-v2';
 
 /**
  * tex2html is a module which converts tex string into Common HTML format.
@@ -37,33 +36,35 @@ const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/out
  * You can also pass parameters when converting. This parameters are used over
  * initial parameters, but some parameters are ignored.
  * 
- * @param {Partial<MathJaxConfig>=} opts 
+ * @param {Partial<Tex2HtmlConfig>=} opts 
  */
 module.exports = function (opts) {
-  // set default conversion parameters
+  // set default parameters
   opts = opts || {};
   opts.inline = opts.inline || false;
   opts.em = opts.em || 16;
   opts.ex = opts.ex || 8;
   opts.width = opts.width || 80 * 16;
-  opts.scale = opts.scale || 1.21; // magic # chosen which looks better.
-  opts.fontURL = opts.fontURL || MATHJAX_DEFAULT_FONT_URL;
-  opts.packages = opts.packages || AllPackages.sort().join(', ');
-  opts.adaptiveCSS = opts.adaptiveCSS || true;
+  opts.tex = opts.tex || {};
+  opts.tex.packages = opts.tex.packages || AllPackages.sort().join(', ');
+  opts.chtml = opts.chtml || {};
+  opts.chtml.scale = opts.chtml.scale || 1.21; // magic # chosen which looks better.
+  opts.chtml.fontURL = opts.chtml.fontURL || MATHJAX_DEFAULT_FONT_URL;
+  opts.chtml.adaptiveCSS = opts.chtml.adaptiveCSS || true;
+  opts.chtml.exFactor = opts.chtml.exFactor || (opts.ex / opts.em);
+
+  // derive some parameters
+  if (typeof opts.tex.packages == 'string') {
+    opts.tex.packages = opts.tex.packages.split(/\s*,\s*/);
+  }
 
   //
   // set up mathjax and conversion function
   //
   const adaptor = liteAdaptor();
   RegisterHTMLHandler(adaptor);
-  const tex = new TeX({
-    packages: opts.packages.split(/\s*,\s*/)
-  });
-  const chtml = new CHTML({
-    fontURL: opts.fontURL,
-    exFactor: opts.ex / opts.em,
-    adaptiveCSS: opts.adaptiveCSS,
-  });
+  const tex = new TeX(opts.tex);
+  const chtml = new CHTML(opts.chtml);
   const html = mathjax.document('', {
     InputJax: tex,
     OutputJax: chtml
@@ -72,7 +73,7 @@ module.exports = function (opts) {
   /**
    * Function which converts input 
    * @param {string}          tex      TeX equation
-   * @param {MathJaxConfig}   param    conversion parameters
+   * @param {Tex2HtmlConfig}   param    conversion parameters
    */
   const Convert = (tex, param) => {
     param = param || opts;
@@ -81,7 +82,7 @@ module.exports = function (opts) {
       em: useParam(param.em, opts.em),
       ex: useParam(param.ex, opts.ex),
       containerWidth: useParam(param.width, opts.width),
-      scale: useParam(param.scale, opts.scale),
+      scale: 1.0,
     })
     return adaptor.outerHTML(node);
   }
