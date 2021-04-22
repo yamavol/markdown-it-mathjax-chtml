@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0 - 2021-04-22
+
+- changed option structure to configure mathjax TeX and CHTML.
 ## 0.2.0 - 2020-11-06
 
 - updated to Mathjax-v3 (not beta!)

@@ -1,10 +1,12 @@
 # markdown-it-mathjax-chtml
 
-This markdown-it plugin converts mathematics equation (TeX) into MathJax CommonHTML output. It uses MathJax's server-side rendering feature. Since all equations are converted and embedded into the document, the page should show up much faster than when dynamic processing is used. 
+This markdown-it plugin converts mathematics equation (TeX) into MathJax CommonHTML output. It uses MathJax's server-side rendering feature. 
+
+Since all equations are pre-converted, the reader can view the equation even if javascript is disabled. The initial motivation to create this plugin was to speed up the math-rendering, but resulted not as fast as I expected. 
 
 If you are looking for a more standard usage, other plugins such as [`markdown-it-mathjax`](https://github.com/classeur/markdown-it-mathjax) are probably recommended.
 
-Current library provides limited feature to satisfy author's requirement. We welcome any kind of support. APIs are subjective to change without extra care during the development phase (0.x.x).
+This library is currently under development. APIs are subjective to change for better usage. Any contributions are welcome.
 
 ## usage
 
@@ -39,7 +41,26 @@ Save this CSS somewhere and load it from your html file.
 ```
 ## Options
 
-- TBD (see type definitions file)
+Please see the definition files.
+
+[index.d.ts](https://github.com/yamavol/markdown-it-mathjax-chtml/blob/master/src/index.d.ts)
+
+[tex2html.d.ts](https://github.com/yamavol/markdown-it-mathjax-chtml/blob/master/src/tex2html.d.ts)
+
+### Plugin configuration
+
+| key          | type   | description                                     |
+|--------------|--------|-------------------------------------------------|
+| mathjax      | object | mathjax confugration with some extension        |
+
+### Mathjax configuration
+
+| key          | type    | description                                         |
+|--------------|---------|-----------------------------------------------------|
+| inline       | boolean | Reserved for plugin. Controls the display mode.     |
+| em,ex,width  | number  | Used to configure the output. Seems not working?    |
+| tex          | object  | Mathjax tex object. See official mathjax document.  |
+| chtml        | object  | Mathjax chtml object. See official mathjax document.|
 
 ## License
 - ISC
