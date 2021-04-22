@@ -40,6 +40,11 @@ describe('markdown-it basic conversion', function () {
   const opts = {
     throwOnError: true,
     mathjax: {
+      tex: {
+        macros: {
+          bm: ['\\boldsymbol{#1}', 1]
+        }
+      },
       chtml: {
         fontURL: 'https://cdn.jsdelivr.net/npm/mathjax-full@3.1.2/es5/output/chtml/fonts/woff-v2'
       }

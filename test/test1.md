@@ -52,3 +52,11 @@ $$
     \nabla \cdot \vec{\mathbf{B}} & = 0
 \end{align}
 $$
+
+## Use non-standard symbols
+
+To convert `\bm` you need to define a macro.
+
+$$
+\bm{a} = \bm{b} + \bm{c}
+$$
