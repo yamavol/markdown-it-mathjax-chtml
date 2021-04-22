@@ -5,7 +5,7 @@ export = MdMjPlugin
 
 declare namespace MdMjPlugin {
   interface PluginOptions {
-    throwOnError: boolean
+    // throwOnError: boolean
     mathjax: Partial<Tex2HtmlConfig>
   }
 }
