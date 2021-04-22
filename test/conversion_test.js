@@ -41,7 +41,7 @@ describe('markdown-it basic conversion', function () {
     throwOnError: true
   };
   opts.mathjax = {
-    fontURL: 'https://cdn.jsdelivr.com/mathjax/mathjax-v3/3.0.0-beta.3/mathjax2/css'
+    fontURL: 'https://cdn.jsdelivr.net/npm/mathjax-full@3.1.2/es5/output/chtml/fonts/woff-v2'
   }
 
   const md = MarkdownIt();

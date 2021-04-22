@@ -26,7 +26,7 @@ function useParam(param, defaultParam) {
  * @typedef { import('./index').MathJaxConvertConfig } MathJaxConvertConfig
  */
 
-const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2';
+const MATHJAX_DEFAULT_FONT_URL = 'https://cdn.jsdelivr.net/npm/mathjax-full@3/es5/output/chtml/fonts/woff-v2';
 
 /**
  * tex2html is a module which converts tex string into Common HTML format.
