@@ -1,5 +1,9 @@
 # Release Log
 
+## 0.4.1 (2025-05-21)
+
+- Updated dependencies
+
 ## 0.4.0 (2025-05-21)
 
 - Re-implemented in typescript
