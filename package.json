@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "build:dev": "tsc --build tsconfig.dev.json",
-    "test": "mocha"
+    "test": "tsc && node --test"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
     "@types/markdown-it": "^12.0.1",
     "linkedom": "^0.18.10",
     "markdown-it": "^12.0.6",
-    "mocha": "^8.3.2",
     "typescript": "^5.8.3"
   }
 }
