@@ -1,5 +1,6 @@
 import { merge } from "lodash-es";
 import type MarkdownIt from "markdown-it";
+import type { PluginSimple } from "markdown-it";
 import type { RenderRule } from "markdown-it/lib/renderer.js";
 import type Token from "markdown-it/lib/token.js";
 import { MathjaxEngine, Options as Tex2HtmlOptions } from "./mathjax.js";
@@ -73,17 +74,21 @@ export class MdMjPlugin {
     this.engine = new MathjaxEngine(this.option.mathjax);
   }
 
-  plugin(md: MarkdownIt) {
-    const renderer = getRenderers(this.engine, this.option);
-    md.inline.ruler.after("escape", "math_inline", math_inline);
-    md.block.ruler.after("blockquote", "math_block", math_block, {
-      alt: ["paragraph", "reference", "blockquote", "list"]
-    });
-    md.renderer.rules.math_inline = renderer.inlineRenderer;
-    md.renderer.rules.math_block = renderer.blockRenderer;
+  plugin(): PluginSimple {
+    return (md: MarkdownIt) => {
+      const renderer = getRenderers(this.engine, this.option);
+      md.inline.ruler.after("escape", "math_inline", math_inline);
+      md.block.ruler.after("blockquote", "math_block", math_block, {
+        alt: ["paragraph", "reference", "blockquote", "list"]
+      });
+      md.renderer.rules.math_inline = renderer.inlineRenderer;
+      md.renderer.rules.math_block = renderer.blockRenderer;
+    };
   }
 
   stylesheet(): string {
     return this.engine.stylesheet();
   }
 }
+
+export default MdMjPlugin;
