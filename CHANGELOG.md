@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.1 - 2025-05-21
+
+- Updated dependencies
+
+## 0.4.0 - 2025-05-21
+
+- Re-implemented in typescript
+- Replaced the converter engine
+- Switched to ESModule package
+
+
 ## 0.3.0 - 2021-04-22
 
 - changed option structure to configure mathjax TeX and CHTML.
