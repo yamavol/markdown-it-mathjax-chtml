@@ -4,8 +4,8 @@
  * provides methods to parse MarkdownIt token stream and extract math equations.
  */
 
-import type StateBlock from "markdown-it/lib/rules_block/state_block.js";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline.js";
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
+import type StateInline from "markdown-it/lib/rules_inline/state_inline.mjs";
 
 /**
  * Tests if potential opening or closing delimieter

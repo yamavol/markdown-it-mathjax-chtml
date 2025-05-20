@@ -1,8 +1,8 @@
 import { merge } from "lodash-es";
 import type MarkdownIt from "markdown-it";
 import type { PluginSimple } from "markdown-it";
-import type { RenderRule } from "markdown-it/lib/renderer.js";
-import type Token from "markdown-it/lib/token.js";
+import type { RenderRule } from "markdown-it/lib/renderer.mjs";
+import type Token from "markdown-it/lib/token.mjs";
 import { MathjaxEngine, Options as Tex2HtmlOptions } from "./mathjax.js";
 import { math_block, math_inline } from "./mdparser.js";
 
