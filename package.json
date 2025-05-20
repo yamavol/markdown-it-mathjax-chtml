@@ -2,8 +2,15 @@
   "name": "markdown-it-mathjax-chtml",
   "version": "0.3.0",
   "description": "a markdown-it plugin to convert mathematical equation into mathjax's common-html format",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "keywords": [
+    "markdown-it-plugin",
+    "mathjax"
+  ],
+  "type": "module",
+  "author": "yamavol",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "build:dev": "tsc --build tsconfig.dev.json",
@@ -13,13 +20,10 @@
     "type": "git",
     "url": "https://github.com/yamavol/markdown-it-mathjax-chtml.git"
   },
-  "keywords": [
-    "markdown-it",
-    "markdown-it-plugin",
-    "mathjax"
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
   ],
-  "author": "yamavol@outlook.com",
-  "license": "ISC",
   "dependencies": {
     "lodash-es": "^4.17.21",
     "mathjax-full": "^3.1.2"
