@@ -5,6 +5,8 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc --build tsconfig.dev.json",
     "test": "mocha"
   },
   "repository": {
@@ -19,12 +21,15 @@
   "author": "yamavol@outlook.com",
   "license": "ISC",
   "dependencies": {
+    "lodash-es": "^4.17.21",
     "mathjax-full": "^3.1.2"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "@types/markdown-it": "^12.0.1",
     "jsdom": "^16.5.3",
     "markdown-it": "^12.0.6",
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.2",
+    "typescript": "^5.8.3"
   }
 }
